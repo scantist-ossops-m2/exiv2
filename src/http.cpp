@@ -329,14 +329,10 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
                 // search for the body
                 for ( size_t b = 0 ; bSearching && b < lengthof(blankLines) ; b++ ) {
-                    const char* blankLinePos = strstr(buffer,blankLines[b]);
-                    if ( blankLinePos ) {
+                    if ( strstr(buffer,blankLines[b]) ) {
                         bSearching = false ;
-                        body   = blankLinePos - buffer + strlen(blankLines[b]);
-                        const char* firstSpace = strchr(buffer,' ');
-                        if (firstSpace) {
-                            status = atoi(firstSpace);
-                        }
+                        body   = (int) ( strstr(buffer,blankLines[b]) - buffer ) + strlen(blankLines[b]) ;
+                        status = atoi(strchr(buffer,' ')) ;
                     }
                 }
 
@@ -346,19 +342,9 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 char  N = '\n';
                 int   i = 0   ; // initial byte in buffer
                 while(buffer[i] == N ) i++;
-                h = strchr(h+i,N);
-                if (!h) {
-                    status = 0;
-                    break;
-                }
-                h++;
+                h       = strchr(h+i,N)+1;
                 response[""]=std::string(buffer+i).substr(0,h-buffer-2);
-                const char* firstSpace = strchr(buffer,' ');
-                if ( !firstSpace ) {
-                    status = 0;
-                    break;
-                }
-                result = atoi(firstSpace);
+                result = atoi(strchr(buffer,' '));
                 char* c = strchr(h,C);
                 char* first_newline = strchr(h,N);
                 while ( c && first_newline && c < first_newline && h < buffer+body ) {
