@@ -38,7 +38,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+
 #include "safe_op.hpp"
+#include "enforce.hpp"
 
 // + standard includes
 #include <string>
@@ -202,6 +204,8 @@ namespace Exiv2 {
             throw Error(3, "Photoshop");
         }
         uint32_t resourcesLength = getULong(buf, bigEndian);
+        enforce(resourcesLength < io_->size(), Exiv2::kerCorruptedMetadata);
+
         while (resourcesLength > 0)
         {
             if (io_->read(buf, 8) != 8)
