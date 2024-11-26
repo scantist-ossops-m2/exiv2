@@ -1553,9 +1553,7 @@ namespace Exiv2 {
             }
         }
         Value::AutoPtr v = Value::create(typeId);
-        if (!v.get()) {
-            throw Error(58);
-        }
+        assert(v.get());
         if ( !isize ) {
         	v->read(pData, size, byteOrder());
         } else {
