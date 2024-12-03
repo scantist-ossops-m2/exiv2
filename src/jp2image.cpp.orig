@@ -862,7 +862,6 @@ namespace Exiv2
 
                 case kJp2BoxTypeUuid:
                 {
-                    enforce(boxBuf.size_ >= 24, Exiv2::kerCorruptedMetadata);
                     if(memcmp(boxBuf.pData_ + 8, kJp2UuidExif, 16) == 0)
                     {
 #ifdef DEBUG
