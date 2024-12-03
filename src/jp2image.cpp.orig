@@ -737,10 +737,9 @@ namespace Exiv2
 #endif
                 box.length = io_->size() - io_->tell() + 8;
             }
-            if (box.length < 8)
+            if (box.length == 1)
             {
-                // box is broken, so there is nothing we can do here
-                throw Error(kerCorruptedMetadata);
+                // FIXME. Special case. the real box size is given in another place.
             }
 
             // Read whole box : Box header + Box data (not fixed size - can be null).
