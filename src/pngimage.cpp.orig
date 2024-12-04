@@ -470,10 +470,6 @@ namespace Exiv2 {
                     profileName_ = std::string(reinterpret_cast<char *>(chunkData.pData_), iccOffset-1);
                     ++iccOffset; // +1 = 'compressed' flag
 
-                    if (iccOffset > chunkLength) {
-                      throw Exiv2::Error(kerFailedToReadImageData);
-                    }
-
                     zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
 #ifdef DEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName_ << std::endl;
